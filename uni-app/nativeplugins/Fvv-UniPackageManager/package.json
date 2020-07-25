@@ -1,0 +1,20 @@
+{
+    "name": "UniPackageManager",
+    "id": "Fvv-UniPackageManager",
+    "version": "1.0.0",
+    "description": "安卓包管理",
+    "_dp_type":"nativeplugin",
+    "_dp_nativeplugin":{
+        "android": {
+            "plugins": [
+                {
+                    "type": "module",
+                    "name": "Fvv-UniPackageManager",
+                    "class": "uni.fvv.packageManager.UniPackageManager"
+                }
+            ],
+			"integrateType": "aar",
+            "minSdkVersion": "17"
+        }
+    }
+}
