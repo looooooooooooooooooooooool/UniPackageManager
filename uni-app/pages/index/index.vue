@@ -7,6 +7,7 @@
 			<button @click="isRunning">是否运行</button>
 			<button @click="openApp">打开</button>
 			<button @click="getAppList">获取列表</button>
+			<button @click="shell">运行shell命令</button>
 		</view>
 	</view>
 </template>
@@ -41,6 +42,14 @@
 			},
 			getAppList(){
 				packageManager.getAppList(res => { 
+					console.log(res)
+				})
+			},
+			shell(){ 
+				packageManager.shell({
+					command:"echo root",
+					root:true
+				},res => {
 					console.log(res)
 				})
 			}

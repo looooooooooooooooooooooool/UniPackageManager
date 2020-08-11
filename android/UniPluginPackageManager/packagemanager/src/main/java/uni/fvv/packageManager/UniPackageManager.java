@@ -116,4 +116,27 @@ public class UniPackageManager extends WXModule {
         JSONArray jsonArray = PackageUtils.getAppList(mWXSDKInstance.getContext());
         jsCallback.invoke(jsonArray);
     }
+
+
+    //执行shell命令
+    @JSMethod(uiThread = true)
+    public void shell(JSONObject jsonObject,JSCallback jsCallback){
+
+        String command =  SetValue(jsonObject,"command","");
+        Boolean isRoot =  SetValue(jsonObject,"root",false);
+
+        ShellUtils.CommandResult res =  ShellUtils.execCommand(command, isRoot,true);
+
+        jsCallback.invoke(JSONObject.toJSON(res));
+    }
+
+    public String SetValue(JSONObject object,String key,String defaultValue){
+        object = object == null?new JSONObject():object;
+        return object.containsKey(key)?object.getString(key):defaultValue;
+    }
+
+    public Boolean SetValue(JSONObject object,String key,Boolean defaultValue){
+        object = object == null?new JSONObject():object;
+        return object.containsKey(key)?object.getBoolean(key):defaultValue;
+    }
 }
