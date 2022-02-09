@@ -102,10 +102,33 @@ public class PackageUtils {
             return false;
         }
 
-        i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName(), file);
+            i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            i.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        } else {
+            i.setDataAndType(Uri.parse("file://" + file.toString()),
+                    "application/vnd.android.package-archive");
+        }
+        
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
         return true;
+    }
+    
+    public static String getMetaData(Context context, String key) {
+        try {
+            ApplicationInfo ai = context.getPackageManager()
+                    .getApplicationInfo(context.getPackageName(),
+                            PackageManager.GET_META_DATA);
+            Object value = ai.metaData.get(key);
+            if (value != null) {
+                return value.toString();
+            }
+        } catch (Exception e) {
+            return "";
+        }
+        return "";
     }
 
     /**
